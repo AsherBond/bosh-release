@@ -1,0 +1,5 @@
+cp -a nats/* ${BOSH_INSTALL_TARGET}
+(
+  cd ${BOSH_INSTALL_TARGET}
+  /var/vcap/packages/ruby/bin/bundle --binstubs --local install --deployment
+)
