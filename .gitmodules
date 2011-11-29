@@ -1,0 +1,3 @@
+[submodule "src/bosh"]
+	path = src/bosh
+	url = git@github.com:vmware-ac/bosh.git
