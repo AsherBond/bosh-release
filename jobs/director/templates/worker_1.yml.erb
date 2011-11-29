@@ -1,0 +1,62 @@
+---
+name: <%= properties.director.name %>
+port: <%= properties.director.port %>
+logging:
+  level: DEBUG
+  file: /var/vcap/sys/log/director/worker_1.debug.log
+<% if properties.redis %>
+redis:
+  host: <%= properties.redis.address %>
+  port: <%= properties.redis.port %>
+  password: <%= properties.redis.password %>
+<% end %>
+mbus: nats://<%= properties.nats.user %>:<%= properties.nats.password %>@<%= properties.nats.address %>:<%= properties.nats.port %>
+dir: /var/vcap/store/director
+db:
+  <% if properties.postgres %>
+  database: postgres://<%= properties.postgres.user %>:<%= properties.postgres.password %>@<%= properties.postgres.address %>/<%= properties.postgres.database %>
+  max_connections: 32
+  pool_timeout: 10
+  <% else %>
+  database: sqlite:///var/vcap/store/director/director.db %>
+  <% end %>
+blobstore:
+  plugin: simple
+  properties:
+    endpoint: http://<%= properties.blobstore.address %>:<%= properties.blobstore.port %>
+    user: <%= properties.blobstore.director.user %>
+    password: <%= properties.blobstore.director.password %>
+cloud:
+  plugin: vsphere
+  properties:
+    mem_overcommit_ratio: 0.7
+    agent:
+      ntp:
+       - ntp01.las01.emcatmos.com
+       - ntp02.las01.emcatmos.com
+      blobstore:
+        plugin: simple
+        properties:
+          endpoint: 'http://<%= properties.blobstore.address %>:<%= properties.blobstore.port %>'
+          user: <%= properties.blobstore.agent.user %>
+          password: <%= properties.blobstore.agent.password %>
+      mbus: nats://<%= properties.nats.user %>:<%= properties.nats.password %>@<%= properties.nats.address %>:<%= properties.nats.port %>
+    soap_log: /var/vcap/sys/log/director/worker_1.soap.log
+    vcenters:
+      - host: <%= properties.vcenter.address %>
+        user: <%= properties.vcenter.user %>
+        password: <%= properties.vcenter.password %>
+        datacenters:
+          <% properties.vcenter.datacenters.each do |dc| %>
+          - name: <%= dc.name %>
+            vm_folder: BOSH_VMs
+            template_folder: BOSH_Templates
+            disk_path: BOSH_Disks
+            datastore_pattern: <%= dc.datastore_pattern %>
+            persistent_datastore_pattern: <%= dc.persistent_datastore_pattern %>
+            allow_mixed_datastores: true
+            clusters:
+              <% dc.clusters.each do |cluster| %>
+              - <%= cluster %>
+              <% end %>
+          <% end %>

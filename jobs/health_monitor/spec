@@ -1,0 +1,10 @@
+---
+name: health_monitor
+
+templates:
+  health_monitor_ctl:     bin/health_monitor_ctl
+  health_monitor.yml.erb: config/health_monitor.yml
+
+packages:
+  - health_monitor
+  - ruby

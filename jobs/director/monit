@@ -1,0 +1,10 @@
+check process director
+  with pidfile /var/vcap/sys/run/director/director.pid
+  start program "/var/vcap/jobs/director/bin/director_ctl start"
+  stop program "/var/vcap/jobs/director/bin/director_ctl stop"
+  group vcap
+check process worker_1
+  with pidfile /var/vcap/sys/run/director/worker_1.pid
+  start program "/var/vcap/jobs/director/bin/worker_1_ctl start"
+  stop program "/var/vcap/jobs/director/bin/worker_1_ctl stop"
+  group vcap

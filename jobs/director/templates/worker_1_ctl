@@ -1,0 +1,34 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/director
+LOG_DIR=/var/vcap/sys/log/director
+PIDFILE=$RUN_DIR/worker_1.pid
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
+export TMPDIR=/var/vcap/data/tmp
+
+export QUEUE=normal
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    exec /var/vcap/packages/director/bosh/director/bin/worker -c /var/vcap/jobs/director/config/worker_1.yml >>$LOG_DIR/worker_1.stdout.log 2>>$LOG_DIR/worker_1.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+  echo "Usage: worker_1_ctl {start|stop}" ;;
+esac
+exit 0

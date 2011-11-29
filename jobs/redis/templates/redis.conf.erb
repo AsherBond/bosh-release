@@ -1,0 +1,12 @@
+daemonize no
+pidfile /var/vcap/sys/run/redis/redis.pid
+port <%= properties.redis.port %>
+timeout 300
+loglevel notice
+logfile stdout
+databases 16
+dir /var/vcap/store/redis
+requirepass <%= properties.redis.password %>
+maxclients 0
+maxmemory-policy noeviction
+appendonly no

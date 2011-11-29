@@ -1,0 +1,72 @@
+---
+http:
+  port: <%= properties.hm.http.port %>
+  user: <%= properties.hm.http.user %>
+  password: <%= properties.hm.http.password %>
+
+mbus:
+  endpoint: nats://<%= properties.nats.address %>:<%= properties.nats.port %>
+  user: <%= properties.nats.user %>
+  password: <%= properties.nats.password %>
+
+director:
+  endpoint: http://<%= properties.director.address %>:<%= properties.director.port %>
+  user: <%= properties.hm.director_account.user %>
+  password: <%= properties.hm.director_account.password %>
+
+intervals:
+  poll_director: <%= properties.hm.intervals.poll_director %>
+  poll_grace_period: <%= properties.hm.intervals.poll_grace_period %>
+  log_stats: <%= properties.hm.intervals.log_stats %>
+  analyze_agents: <%= properties.hm.intervals.analyze_agents %>
+  agent_timeout: <%= properties.hm.intervals.agent_timeout %>
+  rogue_agent_alert: <%= properties.hm.intervals.rogue_agent_alert %>
+
+logfile: /var/vcap/sys/log/health_monitor/health_monitor.log
+loglevel: <%= properties.hm.loglevel %>
+
+plugins:
+
+  - name: logger
+    events:
+      - alert
+
+  <% if properties.event_nats %>
+  - name: nats
+    events:
+      - alert
+      - heartbeat
+    options:
+      endpoint: nats://<%= properties.event_nats.address %>:<%= properties.event_nats.port %>
+      user: <%= properties.event_nats.user %>
+      password: <%= properties.event_nats.password %>
+  <% end %>
+
+  <% if properties.hm.email_notifications %>
+  - name: email
+    events:
+      - alert
+    options:
+      recipients:
+        <% for recipient in properties.hm.email_recipients.to_a %>
+        - <%= recipient %>
+        <% end %>
+      smtp:
+        from: <%= properties.hm.smtp.from %>
+        host: <%= properties.hm.smtp.host %>
+        port: <%= properties.hm.smtp.port %>
+        auth: <%= properties.hm.smtp.auth %>
+        user: <%= properties.hm.smtp.user %>
+        password: <%= properties.hm.smtp.password %>
+        domain: <%= properties.hm.smtp.domain %>
+  <% end %>
+
+  <% if properties.hm.tsdb_enabled %>
+  - name: tsdb
+    events:
+      - alert
+      - heartbeat
+    options:
+      host: <%= properties.hm.tsdb.address %>
+      port: <%= properties.hm.tsdb.port %>
+  <% end %>
