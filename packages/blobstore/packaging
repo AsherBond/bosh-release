@@ -1,0 +1,7 @@
+cp -a * ${BOSH_INSTALL_TARGET}
+
+(
+  cd ${BOSH_INSTALL_TARGET}/bosh/simple_blobstore_server
+  /var/vcap/packages/ruby/bin/bundle --local install --deployment --without=development test
+)
+

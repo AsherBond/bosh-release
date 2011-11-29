@@ -1,0 +1,6 @@
+---
+name: director
+dependencies:
+- ruby
+files:
+- bosh/director/**/*
