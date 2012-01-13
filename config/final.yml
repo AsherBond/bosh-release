@@ -1,6 +1,6 @@
 --- 
 name: 
-min_cli_version: 0.9.6
+min_cli_version: "0.11"
 blobstore_options: 
   provider: atmos
   atmos_options: {}

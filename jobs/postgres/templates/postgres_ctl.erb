@@ -15,7 +15,6 @@ DBNAME=<%= properties.postgres.database %>
 case "$1" in
   start)
     mkdir -p $RUN_DIR
-    echo $$ > $PIDFILE # Satisfy Monit in case of slow start
 
     if [ ! -d $DATA_DIR -o ! -f $DATA_DIR/postgresql.conf ]; then
       mkdir -p $DATA_DIR

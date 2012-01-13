@@ -27,8 +27,6 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-	/var/vcap/packages/director/bin/migrate
-
     exec /var/vcap/packages/director/bosh/director/bin/director -c /var/vcap/jobs/director/config/director.yml >>$LOG_DIR/director.stdout.log 2>>$LOG_DIR/director.stderr.log
     ;;
 
