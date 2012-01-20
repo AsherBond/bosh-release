@@ -1,0 +1,4 @@
+monit
+spec
+templates/worker_?.yml.erb
+templates/worker_?_ctl

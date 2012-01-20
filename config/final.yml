@@ -1,8 +1,8 @@
 --- 
 name: 
-jobs_order: []
-
-min_cli_version: 0.9.1
-s3_options: {}
+min_cli_version: 0.9.6
+blobstore_options: 
+  provider: atmos
+  atmos_options: {}
 
 latest_release_filename: 

@@ -29,8 +29,8 @@ spec = {
 (1..@workers).each do |i|
   # write template
   @index = i
-  tmpl("templates/worker_ctl.erb", "templates/worker_#{i}_ctl")
-  tmpl("templates/worker.yml.erb", "templates/worker_#{i}.yml.erb")
+  tmpl("worker_ctl.erb", "templates/worker_#{i}_ctl")
+  tmpl("worker.yml.erb", "templates/worker_#{i}.yml.erb")
   # append to monit
   spec["templates"]["worker_#{i}_ctl"] = "bin/worker_#{i}_ctl"
   spec["templates"]["worker_#{i}.yml.erb"] = "config/worker_#{i}.yml"
