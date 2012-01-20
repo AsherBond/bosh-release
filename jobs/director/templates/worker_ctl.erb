@@ -2,7 +2,7 @@
 
 RUN_DIR=/var/vcap/sys/run/director
 LOG_DIR=/var/vcap/sys/log/director
-PIDFILE=$RUN_DIR/worker_1.pid
+PIDFILE=$RUN_DIR/worker_<%= @index %>.pid
 
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 
@@ -18,7 +18,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/director/bosh/director/bin/worker -c /var/vcap/jobs/director/config/worker_1.yml >>$LOG_DIR/worker_1.stdout.log 2>>$LOG_DIR/worker_1.stderr.log
+    exec /var/vcap/packages/director/bosh/director/bin/worker -c /var/vcap/jobs/director/config/worker_<%= @index %>.yml >>$LOG_DIR/worker_<%= @index %>.stdout.log 2>>$LOG_DIR/worker_<%= @index %>.stderr.log
     ;;
 
   stop)
@@ -29,6 +29,6 @@ case $1 in
     ;;
 
   *)
-  echo "Usage: worker_1_ctl {start|stop}" ;;
+  echo "Usage: worker_<%= @index %>_ctl {start|stop}" ;;
 esac
 exit 0

@@ -1,0 +1,12 @@
+check process director
+  with pidfile /var/vcap/sys/run/director/director.pid
+  start program "/var/vcap/jobs/director/bin/director_ctl start"
+  stop program "/var/vcap/jobs/director/bin/director_ctl stop"
+  group vcap
+<% (1..@workers).each do |index| %>
+check process worker_<%= index %>
+  with pidfile /var/vcap/sys/run/director/worker_<%= index %>.pid
+  start program "/var/vcap/jobs/director/bin/worker_<%= index %>_ctl start"
+  stop program "/var/vcap/jobs/director/bin/worker_<%= index %>_ctl stop"
+  group vcap
+<% end%>
