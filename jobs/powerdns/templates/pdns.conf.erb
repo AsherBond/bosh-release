@@ -1,0 +1,14 @@
+launch=gpgsql
+gpgsql-host=127.0.0.1
+gpgsql-user=<%= properties.dns.user %>
+gpgsql-password=<%= properties.dns.password %>
+gpgsql-dbname=<%= properties.dns.database %>
+allow-recursion-override=yes
+config-dir=/var/vcap/jobs/powerdns/config
+daemon=yes
+max-tcp-connections=256
+module-dir=/usr/local/lib
+recursor=<%= properties.dns.recursors[spec.index.to_i % properties.dns.recursors.length] %>
+setgid=vcap
+setuid=vcap
+version-string=anonymous

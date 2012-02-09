@@ -17,13 +17,13 @@ case $1 in
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
+    COMPONENT=director erb /var/vcap/jobs/director/config/director.yml.erb > /var/vcap/jobs/director/config/director.yml
+
     HERE=`pwd`
     cd /var/vcap/packages/director/bosh/director
     chpst -u vcap:vcap bundle exec rake migration:run[/var/vcap/jobs/director/config/director.yml]
 
     cd $HERE
-
-    COMPONENT=director erb /var/vcap/jobs/director/config/director.yml.erb > /var/vcap/jobs/director/config/director.yml
 
     echo $$ > $PIDFILE
 

@@ -7,4 +7,6 @@ templates:
   drain: bin/drain
 packages:
 - director
+- genisoimage
+- libpq
 - ruby

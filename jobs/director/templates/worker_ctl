@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INDEX=$1
+INDEX=$2
 
 RUN_DIR=/var/vcap/sys/run/director
 LOG_DIR=/var/vcap/sys/log/director

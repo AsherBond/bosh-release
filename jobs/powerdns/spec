@@ -1,0 +1,16 @@
+---
+name: powerdns
+templates:
+  access_list.erb: config/access_list
+  nginx.conf.erb: config/nginx.conf
+  nginx_ctl.erb: bin/nginx_ctl
+  pdns.conf.erb: config/pdns.conf
+  pg_hba.conf.erb: config/pg_hba.conf
+  postgres_ctl.erb: bin/postgres_ctl
+  postgresql.conf.erb: config/postgresql.conf
+  powerdns_ctl.erb: bin/powerdns_ctl
+  recovery.conf.erb: config/recovery.conf
+packages:
+  - nginx
+  - postgres
+  - powerdns
