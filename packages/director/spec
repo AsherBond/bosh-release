@@ -4,3 +4,4 @@ dependencies:
 - ruby
 files:
 - bosh/director/**/*
+- bosh/rake/**/*

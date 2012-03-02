@@ -8,22 +8,17 @@ export PATH=/var/vcap/packages/ruby/bin:$PATH
 
 export TMPDIR=/var/vcap/data/tmp
 
-<% if properties.postgres %>
-URL="postgres://<%= properties.postgres.user %>:<%= properties.postgres.password %>@<%= properties.postgres.address %>/<%= properties.postgres.database %>"
-<% else %>
-URL="sqlite:///var/vcap/store/director/director.db"
-<% end %>
-
 case $1 in
 
   start)
     mkdir -p $RUN_DIR
     mkdir -p $LOG_DIR
 
-	HERE=`pwd`
-	cd /var/vcap/packages/director/bosh/director
-	chpst -u vcap:vcap bundle exec sequel -m db/migrations $URL
-	cd $HERE
+    HERE=`pwd`
+    cd /var/vcap/packages/director/bosh/director
+    chpst -u vcap:vcap bundle exec rake migration:run[/var/vcap/jobs/director/config/director.yml]
+
+    cd $HERE
 
     echo $$ > $PIDFILE
 
