@@ -19,6 +19,7 @@ spec = {
   "name" => "director",
   "templates" => {
     "director_ctl" => "bin/director_ctl",
+    "drain" => "bin/drain",
     "director.yml.erb" => "config/director.yml",
   },
   "packages" => ["director", "ruby"]
