@@ -1,8 +1,9 @@
---- 
-name: bosh
-min_cli_version: "0.11"
-blobstore_options: 
+---
+final_name: bosh
+min_cli_version: 0.15.2
+blobstore:
   provider: atmos
-  atmos_options: {}
-
-latest_release_filename: 
+  options:
+    tag: BOSH
+    uid: f466d6dc37284e25b38429b5cb5f12aa/user1
+    url: https://blob.cfblob.com

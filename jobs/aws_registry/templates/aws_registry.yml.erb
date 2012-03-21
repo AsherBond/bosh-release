@@ -1,0 +1,17 @@
+---
+loglevel: debug
+
+http:
+  port: <%= properties.aws.registry.port %>
+  user: <%= properties.aws.registry.user %>
+  password: <%= properties.aws.registry.password %>
+
+db:
+  database: <%= properties.aws.registry.db %>
+  max_connections: 32
+  pool_timeout: 10
+
+aws:
+  access_key_id: <%= properties.aws.access_key_id %>
+  secret_access_key: <%= properties.aws.secret_access_key %>
+  max_retries: 2
