@@ -1,0 +1,6 @@
+set -e
+
+cp -a * ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}/bosh/aws_registry
+/var/vcap/packages/ruby/bin/bundle --local install --deployment --without=development test

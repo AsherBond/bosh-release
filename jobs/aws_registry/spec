@@ -1,0 +1,10 @@
+---
+name: aws_registry
+
+templates:
+  aws_registry_ctl:     bin/aws_registry_ctl
+  aws_registry.yml.erb: config/aws_registry.yml
+
+packages:
+  - aws_registry
+  - ruby
