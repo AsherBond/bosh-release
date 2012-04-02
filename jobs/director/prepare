@@ -22,7 +22,7 @@ spec = {
     "drain" => "bin/drain",
     "director.yml.erb" => "config/director.yml",
   },
-  "packages" => ["director", "ruby"]
+  "packages" => ["genisoimage", "libpq", "director", "ruby"]
 }
 
 @workers = 5

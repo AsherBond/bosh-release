@@ -4,9 +4,12 @@ RUN_DIR=/var/vcap/sys/run/director
 LOG_DIR=/var/vcap/sys/log/director
 PIDFILE=$RUN_DIR/director.pid
 
-export PATH=/var/vcap/packages/ruby/bin:$PATH
+export PATH=/var/vcap/packages/ruby/bin:/var/vcap/packages/genisoimage:$PATH
 
 export TMPDIR=/var/vcap/data/tmp
+
+export C_INCLUDE_PATH=/var/vcap/packages/sqlite/include:/var/vcap/packages/libpq/include:$C_INCLUDE_PATH
+export LIBRARY_PATH=/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib:$LIBRARY_PATH
 
 case $1 in
 
