@@ -2,6 +2,7 @@ jobs/micro/monit
 jobs/micro/spec
 jobs/micro/templates/
 config/dev.yml
+config/private.yml
 releases/*.tgz
 dev_releases
 .dev_builds
