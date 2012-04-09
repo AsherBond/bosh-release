@@ -27,6 +27,26 @@ blobstore:
     user: <%= properties.blobstore.director.user %>
     password: <%= properties.blobstore.director.password %>
 cloud:
+  <% if properties.aws %>
+  <% user    = properties.aws_registry.http.user %>
+  <% pass    = properties.aws_registry.http.password %>
+  <% address = properties.aws_registry.address %>
+  <% port    = properties.aws_registry.http.port %>
+  plugin: aws
+  properties:
+    aws:
+      access_key_id: <%= properties.aws.access_key_id %>
+      secret_access_key: <%= properties.aws.secret_access_key %>
+      ec2_endpoint: <%= properties.aws.ec2_endpoint %>
+      default_key_name: <%= properties.aws.default_key_name %>
+      default_security_groups: <%= properties.aws.default_security_groups %>
+    registry:
+      endpoint: http://<%= user %>:<%= pass %>@<%= address %>:<%= port %>
+      user: <%= properties.aws_registry.http.user %>
+      password: <%= properties.aws_registry.http.password %>
+    stemcell:
+      kernel_id: <%= properties.aws.stemcell.kernel_id %>
+  <% else %>
   plugin: vsphere
   properties:
     mem_overcommit_ratio: 0.7
@@ -72,3 +92,4 @@ cloud:
                 <% end %>
               <% end %>
           <% end %>
+  <% end %>

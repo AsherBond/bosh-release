@@ -2,12 +2,20 @@
 loglevel: debug
 
 http:
-  port: <%= properties.aws.registry.port %>
-  user: <%= properties.aws.registry.user %>
-  password: <%= properties.aws.registry.password %>
+  port: <%= properties.aws_registry.http.port %>
+  user: <%= properties.aws_registry.http.user %>
+  password: <%= properties.aws_registry.http.password %>
 
 db:
-  database: <%= properties.aws.registry.db %>
+  <% if properties.postgres %>
+  <% user     = properties.postgres.user %>
+  <% pass     = properties.postgres.pass %>
+  <% address  = properties.postgres.address %>
+  <% database = properties.postgres.database %>
+  database: postgres://<%= user %>:<%= pass %>@<%= address %>/<%= database %>
+  <% else %>
+  database: sqlite:///var/vcap/store/director/director.db %>
+  <% end %>
   max_connections: 32
   pool_timeout: 10
 
@@ -15,3 +23,4 @@ aws:
   access_key_id: <%= properties.aws.access_key_id %>
   secret_access_key: <%= properties.aws.secret_access_key %>
   max_retries: 2
+  ec2_endpoint: <%= properties.aws.ec2_endpoint %>

@@ -4,6 +4,8 @@ RUN_DIR=/var/vcap/sys/run/health_monitor
 LOG_DIR=/var/vcap/sys/log/health_monitor
 PIDFILE=$RUN_DIR/health_monitor.pid
 
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+
 case $1 in
 
   start)
@@ -12,7 +14,9 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/health_monitor/bosh/bin/health_monitor -c /var/vcap/jobs/health_monitor/config/health_monitor.yml >>$LOG_DIR/health_monitor.stdout.log 2>>$LOG_DIR/health_monitor.stderr.log
+    exec /var/vcap/packages/health_monitor/bosh/health_monitor/bin/health_monitor \
+      -c /var/vcap/jobs/health_monitor/config/health_monitor.yml \
+      >>$LOG_DIR/health_monitor.stdout.log 2>>$LOG_DIR/health_monitor.stderr.log
     ;;
 
   stop)
