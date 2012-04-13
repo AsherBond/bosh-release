@@ -46,7 +46,7 @@ server {
       upload_pass   @upload;
 
       # Store files to this directory
-      upload_store /var/vcap/data/blobstore/tmp/uploads;
+      upload_store /var/vcap/store/blobstore/tmp/uploads;
 
       # Allow uploaded files to be read only by user
       upload_store_access user:r;
@@ -66,6 +66,6 @@ server {
 
   location /protected/ {
     internal;
-    alias /var/vcap/data/blobstore/store/;
+    alias /var/vcap/store/blobstore/store/;
   }
 }

@@ -3,7 +3,7 @@ check process director
   start program "/var/vcap/jobs/director/bin/director_ctl start"
   stop program "/var/vcap/jobs/director/bin/director_ctl stop"
   group vcap
-  <%% if properties.micro_bosh %>
+  <%% if properties.micro %>
   depends on postgres,redis,nats
   <%% end %>
 <% (1..@workers).each do |index| %>
