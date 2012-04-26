@@ -3,7 +3,7 @@ name: <%= properties.director.name %>
 port: <%= properties.director.port %>
 logging:
   level: DEBUG
-  file: /var/vcap/sys/log/director/director.debug.log
+  file: /var/vcap/sys/log/director/<%%= ENV["COMPONENT"] %>.debug.log
 <% if properties.redis %>
 redis:
   host: <%= properties.redis.address %>
@@ -18,7 +18,7 @@ db:
   max_connections: 32
   pool_timeout: 10
   <% else %>
-  database: sqlite:///var/vcap/store/director/director.db %>
+  database: sqlite:///var/vcap/store/director/director.db
   <% end %>
 blobstore:
   plugin: simple
@@ -51,9 +51,7 @@ cloud:
   properties:
     mem_overcommit_ratio: 0.7
     agent:
-      ntp:
-       - ntp01.las01.emcatmos.com
-       - ntp02.las01.emcatmos.com
+      ntp: [<%= properties.ntp ? properties.ntp.join(", ") : "" %>]
       blobstore:
         plugin: simple
         properties:
@@ -61,7 +59,7 @@ cloud:
           user: <%= properties.blobstore.agent.user %>
           password: <%= properties.blobstore.agent.password %>
       mbus: nats://<%= properties.nats.user %>:<%= properties.nats.password %>@<%= properties.nats.address %>:<%= properties.nats.port %>
-    soap_log: /var/vcap/sys/log/director/director.soap.log
+    soap_log: /var/vcap/sys/log/director/<%%= ENV["COMPONENT"] %>.soap.log
     vcenters:
       - host: <%= properties.vcenter.address %>
         user: <%= properties.vcenter.user %>

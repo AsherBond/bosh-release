@@ -20,7 +20,9 @@ stop_workers()
 
 stop_workers
 
-num_workers=`/var/vcap/packages/director/bosh/director/bin/drain_workers -r -c /var/vcap/jobs/director/config/director.yml 2>>$LOG_DIR/director.stderr.log`
+COMPONENT=drain erb /var/vcap/jobs/director/config/director.yml.erb > /var/vcap/jobs/director/config/drain.yml
+
+num_workers=`/var/vcap/packages/director/bosh/director/bin/drain_workers -r -c /var/vcap/jobs/director/config/drain.yml 2>>$LOG_DIR/drain.stderr.log`
 
 if [ $num_workers -eq 0 ]; then
   echo 0

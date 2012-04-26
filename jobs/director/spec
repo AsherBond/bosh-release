@@ -1,0 +1,10 @@
+---
+name: director
+templates:
+  director_ctl: bin/director_ctl
+  director.yml.erb: config/director.yml.erb
+  worker_ctl: bin/worker_ctl
+  drain: bin/drain
+packages:
+- director
+- ruby
