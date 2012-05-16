@@ -2,11 +2,16 @@
 
 RUN_DIR=/var/vcap/sys/run/director
 LOG_DIR=/var/vcap/sys/log/director
+STORE_DIR=/var/vcap/store/director
+
 PIDFILE=$RUN_DIR/director.pid
+RUNAS=vcap
 
-export PATH=/var/vcap/packages/ruby/bin:/var/vcap/packages/genisoimage:$PATH
+PATH=/var/vcap/packages/ruby/bin:/var/vcap/packages/genisoimage:$PATH
+PATH=$PATH:/var/vcap/jobs/director/bin
+export PATH
 
-export TMPDIR=/var/vcap/data/tmp
+export TMPDIR=/var/vcap/data/tmp/director
 
 export C_INCLUDE_PATH=/var/vcap/packages/sqlite/include:/var/vcap/packages/libpq/include:$C_INCLUDE_PATH
 export LIBRARY_PATH=/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib:$LIBRARY_PATH
@@ -14,14 +19,23 @@ export LIBRARY_PATH=/var/vcap/packages/sqlite/lib:/var/vcap/packages/libpq/lib:$
 case $1 in
 
   start)
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
+    mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR $TMPDIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR $STORE_DIR $TMPDIR
+
+    # This hackery is needed until we have a way to manage things outside
+    # the /var/vcap directory. Requires stemcell 0.5.4 or later
+    cp /var/vcap/jobs/director/config/sudoers /etc/sudoers.d/director
+    chmod 440 /etc/sudoers.d/director
 
     COMPONENT=director erb /var/vcap/jobs/director/config/director.yml.erb > /var/vcap/jobs/director/config/director.yml
 
     HERE=`pwd`
     cd /var/vcap/packages/director/bosh/director
-    chpst -u vcap:vcap bundle exec rake migration:run[/var/vcap/jobs/director/config/director.yml] >>$LOG_DIR/migration.stdout.log 2>>$LOG_DIR/migration.stderr.log
+    chpst -u $RUNAS:$RUNAS \
+      bundle exec \
+      rake migration:run[/var/vcap/jobs/director/config/director.yml] \
+      >>$LOG_DIR/migration.stdout.log \
+      2>>$LOG_DIR/migration.stderr.log
 
     if [ $? != 0 ]; then
       echo "Migrations failed"
@@ -32,7 +46,10 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/director/bosh/director/bin/director -c /var/vcap/jobs/director/config/director.yml >>$LOG_DIR/director.stdout.log 2>>$LOG_DIR/director.stderr.log
+    exec chpst -u $RUNAS:$RUNAS \
+      /var/vcap/packages/director/bosh/director/bin/director \
+      -c /var/vcap/jobs/director/config/director.yml \
+      >>$LOG_DIR/director.stdout.log 2>>$LOG_DIR/director.stderr.log
     ;;
 
   stop)
