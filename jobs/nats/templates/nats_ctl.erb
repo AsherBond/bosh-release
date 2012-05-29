@@ -11,16 +11,21 @@ export BUNDLE_GEMFILE=/var/vcap/packages/nats/Gemfile
 RUN_DIR=/var/vcap/sys/run/nats
 LOG_DIR=/var/vcap/sys/log/nats
 PIDFILE=$RUN_DIR/nats.pid
+RUNAS=vcap
 
 case $1 in
 
   start)
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR
 
     echo $$ > $PIDFILE
     ulimit -n 65536
-    exec bundle exec nats-server -c /var/vcap/jobs/nats/config/nats.yml >>$LOG_DIR/nats.stdout.log 2>>$LOG_DIR/nats.stderr.log
+    exec chpst -u $RUNAS:$RUNAS \
+      bundle exec nats-server \
+      -c /var/vcap/jobs/nats/config/nats.yml \
+      >>$LOG_DIR/nats.stdout.log \
+      2>>$LOG_DIR/nats.stderr.log
     ;;
 
   stop)

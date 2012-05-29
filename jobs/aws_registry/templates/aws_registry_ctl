@@ -3,18 +3,20 @@
 RUN_DIR=/var/vcap/sys/run/aws_registry
 LOG_DIR=/var/vcap/sys/log/aws_registry
 PIDFILE=$RUN_DIR/aws_registry.pid
+RUNAS=vcap
 
 export PATH=/var/vcap/packages/ruby/bin:$PATH
 
 case $1 in
 
   start)
-    mkdir -p $RUN_DIR
-    mkdir -p $LOG_DIR
+    mkdir -p $RUN_DIR $LOG_DIR
+    chown -R $RUNAS:$RUNAS $RUN_DIR $LOG_DIR
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/aws_registry/bosh/aws_registry/bin/aws_registry \
+    exec chpst -u $RUNAS:$RUNAS \
+      /var/vcap/packages/aws_registry/bosh/aws_registry/bin/aws_registry \
       -c /var/vcap/jobs/aws_registry/config/aws_registry.yml \
       >>$LOG_DIR/aws_registry.stdout.log 2>>$LOG_DIR/aws_registry.stderr.log
     ;;
