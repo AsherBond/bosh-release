@@ -21,7 +21,12 @@ case $1 in
 
     HERE=`pwd`
     cd /var/vcap/packages/director/bosh/director
-    chpst -u vcap:vcap bundle exec rake migration:run[/var/vcap/jobs/director/config/director.yml]
+    chpst -u vcap:vcap bundle exec rake migration:run[/var/vcap/jobs/director/config/director.yml] >>$LOG_DIR/migration.stdout.log 2>>$LOG_DIR/migration.stderr.log
+
+    if [ $? != 0 ]; then
+      echo "Migrations failed"
+      exit 1
+    fi
 
     cd $HERE
 
