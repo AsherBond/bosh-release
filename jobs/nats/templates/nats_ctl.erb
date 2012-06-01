@@ -19,6 +19,7 @@ case $1 in
     mkdir -p $LOG_DIR
 
     echo $$ > $PIDFILE
+    ulimit -n 65536
     exec bundle exec nats-server -c /var/vcap/jobs/nats/config/nats.yml >>$LOG_DIR/nats.stdout.log 2>>$LOG_DIR/nats.stderr.log
     ;;
 
