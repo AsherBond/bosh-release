@@ -2,6 +2,13 @@
 net: <%= properties.nats.address %>
 port: <%= properties.nats.port %>
 
+logtime: true
+no_epoll: <%= properties.nats.no_epoll || false %>
+no_kqueue: <%= properties.nats.no_kqueue || true %>
+ping:
+  interval: <%= properties.nats.ping_interval || 5 %>
+  max_outstanding: <%= properties.nats.ping_max_outstanding || 2 %>
+
 pid_file: /var/vcap/sys/run/nats/nats.pid
 log_file: /var/vcap/sys/log/nats/nats.log
 
@@ -9,3 +16,10 @@ authorization:
   user: <%= properties.nats.user %>
   password: <%= properties.nats.password %>
   timeout: 1
+
+<% if properties.nats.http %>
+http:
+  port: <%= properties.nats.http.port || 9222 %>
+  user: <%= properties.nats.http.user %>
+  password: <%= properties.nats.http.password %>
+<% end %>
