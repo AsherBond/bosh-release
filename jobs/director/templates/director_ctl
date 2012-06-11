@@ -27,6 +27,15 @@ case $1 in
     cp /var/vcap/jobs/director/config/sudoers /etc/sudoers.d/director
     chmod 440 /etc/sudoers.d/director
 
+    # if we encounter a problem after adding the sudoers file, back it out
+    # and abort
+    visudo -c
+    if [ $? -ne 0 ]; then
+      rm /etc/sudoers.d/director
+      echo "ERROR: could not configure sudoers"
+      exit 1
+    fi
+
     COMPONENT=director erb /var/vcap/jobs/director/config/director.yml.erb > /var/vcap/jobs/director/config/director.yml
 
     HERE=`pwd`
