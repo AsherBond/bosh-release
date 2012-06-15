@@ -70,3 +70,12 @@ plugins:
       host: <%= properties.hm.tsdb.address %>
       port: <%= properties.hm.tsdb.port %>
   <% end %>
+
+  <% if properties.hm.pagerduty_enabled %>
+  - name: pagerduty
+    events:
+      - alert
+    options:
+      service_key: <%= properties.hm.pagerduty.service_key %>
+      http_proxy: <%= properties.hm.pagerduty.http_proxy %>
+  <% end %>
