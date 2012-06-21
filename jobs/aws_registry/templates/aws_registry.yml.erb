@@ -9,7 +9,7 @@ http:
 db:
   <% if properties.postgres %>
   <% user     = properties.postgres.user %>
-  <% pass     = properties.postgres.pass %>
+  <% pass     = properties.postgres.password %>
   <% address  = properties.postgres.address %>
   <% database = properties.postgres.database %>
   database: postgres://<%= user %>:<%= pass %>@<%= address %>/<%= database %>
