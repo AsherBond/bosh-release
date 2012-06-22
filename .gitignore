@@ -2,6 +2,9 @@
 jobs/micro/monit
 jobs/micro/spec
 jobs/micro/templates/
+jobs/micro_aws/monit
+jobs/micro_aws/spec
+jobs/micro_aws/templates/
 config/dev.yml
 config/private.yml
 releases/*.tgz
