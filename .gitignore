@@ -1,10 +1,7 @@
 .idea
-jobs/micro/monit
-jobs/micro/spec
-jobs/micro/templates/
-jobs/micro_aws/monit
-jobs/micro_aws/spec
-jobs/micro_aws/templates/
+jobs/micro_*/monit
+jobs/micro_*/spec
+jobs/micro_*/templates/
 config/dev.yml
 config/private.yml
 releases/*.tgz

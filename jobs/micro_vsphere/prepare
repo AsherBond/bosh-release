@@ -7,6 +7,7 @@ require 'erb'
 TEMPLATES = "templates"
 OVERRIDE = "override"
 
+MICRO="micro_vsphere"
 
 def job_dir(job)
   File.expand_path("../../#{job}", __FILE__)
@@ -16,7 +17,7 @@ end
 jobs = %w[ nats redis postgres blobstore director health_monitor ]
 
 spec = {
-  "name" => "micro",
+  "name" => MICRO,
   "templates" => {
     "post_install" => "bin/post_install"
   },
@@ -91,10 +92,10 @@ for DIR in /var/vcap/jobs /var/vcap/data/jobs; do
   cd $DIR
   for JOB in <%= jobs.join(" ") %>; do
     mkdir -p ${JOB}/bin ${JOB}/config
-    for FILE in micro/$JOB/bin/*; do
+    for FILE in <%= MICRO %>/$JOB/bin/*; do
       ln -nsf ../../$FILE $JOB/bin
     done
-    for FILE in micro/$JOB/config/*; do
+    for FILE in <%= MICRO %>/$JOB/config/*; do
       ln -nsf ../../$FILE $JOB/config
     done
   done
