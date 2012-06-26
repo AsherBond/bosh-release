@@ -8,24 +8,30 @@
 PATH=/bin:/usr/bin
 export PATH
 
-if [ $# -ne 1 ]; then
-  echo "usage: $0 <block device>"
+if [ $# -ne 2 ]; then
+  echo "usage: $0 <image-file> <block device>"
   exit 1
 fi
 
-OUTPUT="$1"
+IMAGE="$1"
+OUTPUT="$2"
 
-# TODO perhaps this should be more restrictive?
-echo ${OUTPUT} | egrep '^/dev/[a-z0-9]+$' > /dev/null 2>&1
+echo ${IMAGE} | egrep '^/[A-za-z0-9_/-]+/image$' > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "ERROR: illegal image file: ${IMAGE}"
+  exit 1
+fi
+
+echo ${OUTPUT} | egrep '^/dev/xvd[a-z0-9]+$' > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "ERROR: illegal device: ${OUTPUT}"
   exit 1
 fi
 
 if [ ! -b ${OUTPUT} ]; then
-  echo "ERROR: missing device: ${OUTPUT}"
+  echo "ERROR: not a device: ${OUTPUT}"
   exit 1
 fi
 
 # copy image to block device with 1 MB block size
-dd if=root.img if=${OUTPUT} bs=1M
+tar -xzf ${IMAGE} -O root.img | dd bs=1M if=${OUTPUT}
