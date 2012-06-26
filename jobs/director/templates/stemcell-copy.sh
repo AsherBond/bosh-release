@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo ${OUTPUT} | egrep '^/dev/xvd[a-z0-9]+$' > /dev/null 2>&1
+echo ${OUTPUT} | egrep '^/dev/x?vd[a-z0-9]+$' > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "ERROR: illegal device: ${OUTPUT}"
   exit 1
