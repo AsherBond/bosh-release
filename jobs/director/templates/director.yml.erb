@@ -1,6 +1,7 @@
 ---
 name: <%= properties.director.name %>
 port: <%= properties.director.port %>
+encryption: <%= properties.director.encryption %>
 logging:
   level: DEBUG
   file: /var/vcap/sys/log/director/<%%= ENV["COMPONENT"] %>.debug.log
