@@ -16,7 +16,8 @@ fi
 IMAGE="$1"
 OUTPUT="$2"
 
-echo ${IMAGE} | egrep '^/[A-za-z0-9_/-]+/image$' > /dev/null 2>&1
+# workaround for issue on 12.04 LTS, use LANG=C
+echo ${IMAGE} | LANG=C egrep '^/[A-za-z0-9_/-]+/image$' > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "ERROR: illegal image file: ${IMAGE}"
   exit 1
@@ -34,4 +35,4 @@ if [ ! -b ${OUTPUT} ]; then
 fi
 
 # copy image to block device with 1 MB block size
-tar -xzf ${IMAGE} -O root.img | dd bs=1M if=${OUTPUT}
+tar -xzf ${IMAGE} -O root.img | dd bs=1M of=${OUTPUT}
