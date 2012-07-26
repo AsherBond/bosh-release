@@ -1,0 +1,26 @@
+---
+loglevel: debug
+
+http:
+  port: <%= properties.openstack_registry.http.port %>
+  user: <%= properties.openstack_registry.http.user %>
+  password: <%= properties.openstack_registry.http.password %>
+
+db:
+  <% if properties.postgres %>
+  <% user     = properties.postgres.user %>
+  <% pass     = properties.postgres.password %>
+  <% address  = properties.postgres.address %>
+  <% database = properties.postgres.database %>
+  database: postgres://<%= user %>:<%= pass %>@<%= address %>/<%= database %>
+  <% else %>
+  database: sqlite:///var/vcap/store/director/director.db %>
+  <% end %>
+  max_connections: 32
+  pool_timeout: 10
+
+openstack:
+  auth_url: <%= properties.openstack.auth_url %>
+  username: <%= properties.openstack.username %>
+  api_key: <%= properties.openstack.api_key %>
+  tenant: <%= properties.openstack.tenant %>

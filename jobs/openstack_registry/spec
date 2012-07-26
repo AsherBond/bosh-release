@@ -1,0 +1,10 @@
+---
+name: openstack_registry
+
+templates:
+  openstack_registry_ctl:     bin/openstack_registry_ctl
+  openstack_registry.yml.erb: config/openstack_registry.yml
+
+packages:
+  - openstack_registry
+  - ruby
