@@ -51,10 +51,15 @@ end
       blobstore:
         plugin: simple
         properties:
-          endpoint: 'http://<%= properties.blobstore.address %>:<%= properties.blobstore.port %>'
+<% agent = properties.agent %>
+<% blobstore = agent ? agent.blobstore : nil %>
+<% address = blobstore ? blobstore.address : properties.blobstore.address %>
+          endpoint: 'http://<%= address %>:<%= properties.blobstore.port %>'
           user: <%= properties.blobstore.agent.user %>
           password: <%= properties.blobstore.agent.password %>
-      mbus: nats://<%= properties.nats.user %>:<%= properties.nats.password %>@<%= properties.nats.address %>:<%= properties.nats.port %>
+<% nats = agent ? agent.nats : nil %>
+<% address = nats ? nats.address : properties.nats.address %>
+      mbus: nats://<%= properties.nats.user %>:<%= properties.nats.password %>@<%= address %>:<%= properties.nats.port %>
 <%
 case plugin
 when "aws"
