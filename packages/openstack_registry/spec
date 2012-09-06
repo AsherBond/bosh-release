@@ -1,0 +1,6 @@
+---
+name: openstack_registry
+dependencies:
+- ruby
+files:
+- bosh/openstack_registry/**/*

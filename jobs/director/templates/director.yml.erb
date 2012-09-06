@@ -38,6 +38,8 @@ cloud:
 <%
 if properties.aws
   plugin = "aws"
+elsif properties.openstack
+  plugin = "openstack"
 elsif properties.vcenter
   plugin = "vsphere"
 else
@@ -76,6 +78,23 @@ when "aws"
       password: <%= properties.aws_registry.http.password %>
     stemcell:
       kernel_id: <%= properties.aws.stemcell.kernel_id %>
+<%
+when "openstack"
+%>
+    openstack:
+      auth_url: <%= properties.openstack.auth_url %>
+      username: <%= properties.openstack.username %>
+      api_key: <%= properties.openstack.api_key %>
+      tenant: <%= properties.openstack.tenant %>
+      default_key_name: <%= properties.openstack.default_key_name %>
+      default_security_groups: <%= properties.openstack.default_security_groups %>
+    registry:
+      endpoint: http://<%= properties.openstack_registry.address %>:<%= properties.openstack_registry.http.port %>
+      user: <%= properties.openstack_registry.http.user %>
+      password: <%= properties.openstack_registry.http.password %>
+    stemcell:
+      kernel_id: <%= properties.openstack.stemcell.kernel_id %>
+      ramdisk_id: <%= properties.openstack.stemcell.ramdisk_id %>
 <%
 when "vsphere"
 %>
