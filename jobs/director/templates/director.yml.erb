@@ -21,10 +21,10 @@ db:
   <% else %>
   database: sqlite:///var/vcap/store/director/director.db
   <% end %>
-<% if properties.dns %>
+<% if dns = properties.dns %>
 dns:
   db:
-    database: postgres://<%= properties.dns.user %>:<%= properties.dns.password %>@<%= properties.dns.primary_address %>/<%= properties.dns.database %>
+    database: postgres://<%= dns.user %>:<%= dns.password %>@<%= dns.address %>:<%= dns.database.port || "5432" %>/<%= dns.database.name %>
     max_connections: 32
     pool_timeout: 10
 <% end %>

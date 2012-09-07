@@ -7,21 +7,24 @@ PIDFILE=$RUN_DIR/pdns.pid
 case $1 in
 
 start)
-mkdir -p $RUN_DIR
-mkdir -p $LOG_DIR
+  mkdir -p $RUN_DIR
+  mkdir -p $LOG_DIR
 
-echo $$ > $PIDFILE
+  echo $$ > $PIDFILE
 
-exec /var/vcap/packages/powerdns/pdns_server --guardian=no --socket-dir=$RUN_DIR \
-  --config-dir=/var/vcap/jobs/powerdns/config >>$LOG_DIR/powerdns.stdout.log 2>>$LOG_DIR/powerdns.stderr.log
-;;
+  exec /var/vcap/packages/powerdns/pdns_server \
+    --guardian=no --socket-dir=$RUN_DIR \
+    --config-dir=/var/vcap/jobs/powerdns/config \
+    >>$LOG_DIR/powerdns.stdout.log \
+    2>>$LOG_DIR/powerdns.stderr.log
+  ;;
 
 stop)
-head -1 $PIDFILE | xargs kill
-rm -f $PIDFILE
-;;
+  head -1 $PIDFILE | xargs kill
+  rm -f $PIDFILE
+  ;;
 
 *)
-echo "Usage: powerdns_ctl {start|stop}" ;;
+  echo "Usage: powerdns_ctl {start|stop}" ;;
 esac
 exit 0

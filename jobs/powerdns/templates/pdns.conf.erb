@@ -1,8 +1,9 @@
 launch=gpgsql
 gpgsql-host=127.0.0.1
+gpgsql-port=<%= dns.database.port || 5432 %>
 gpgsql-user=<%= properties.dns.user %>
 gpgsql-password=<%= properties.dns.password %>
-gpgsql-dbname=<%= properties.dns.database %>
+gpgsql-dbname=<%= properties.dns.database.name %>
 allow-recursion-override=yes
 config-dir=/var/vcap/jobs/powerdns/config
 daemon=yes

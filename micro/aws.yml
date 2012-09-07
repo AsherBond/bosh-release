@@ -68,3 +68,16 @@ properties:
       analyze_agents: 60
       agent_timeout: 180
       rogue_agent_alert: 180
+  dns:
+    user: powerdns
+    password: powerdns
+    address: 127.0.0.1
+    recursors:
+      - 127.0.0.1
+    replication:
+      basic_auth: rick:QRoqsenPsNGX6
+      user: rick
+      password: deckard
+    database:
+      name: powerdns
+      port: 5445

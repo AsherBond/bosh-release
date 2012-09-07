@@ -2,8 +2,8 @@
 user  vcap vcap;
 worker_processes  1;
 
-error_log /var/vcap/sys/log/nginx/nginx.error.log;
-pid       /var/vcap/sys/run/nginx/nginx.pid;
+error_log /var/vcap/sys/log/powerdns/nginx.error.log;
+pid       /var/vcap/sys/run/powerdns/nginx.pid;
 
 events {
   worker_connections  8192;
@@ -20,7 +20,7 @@ http {
                    '"$http_referer" "$http_user_agent" '
                    '$remote_addr response_time:$upstream_response_time';
 
-  access_log  /var/vcap/sys/log/nginx/nginx.access.log  main;
+  access_log  /var/vcap/sys/log/powerdns/nginx.access.log  main;
 
   sendfile             on;  #enable use of sendfile()
   tcp_nopush           on;
@@ -36,7 +36,7 @@ http {
     server_name_in_redirect off;
 
     location /backups/ {
-      access_log /var/vcap/sys/log/nginx/nginx.access.log  main;
+      access_log /var/vcap/sys/log/powerdns/nginx.access.log  main;
       alias /var/vcap/store/postgres_backup/;
       auth_basic "RESTRICTED";
       auth_basic_user_file /var/vcap/jobs/powerdns/config/access_list;

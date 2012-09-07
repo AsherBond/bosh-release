@@ -2,18 +2,19 @@
 
 PACKAGE_DIR=/var/vcap/packages/postgres
 JOB_DIR=/var/vcap/jobs/powerdns
-LOG_DIR=/var/vcap/sys/log/postgresql
-DATA_DIR=/var/vcap/store/postgres
-DATA_STAGING_DIR=/var/vcap/store/postgres_staging
-RUN_DIR=/var/vcap/sys/run/postgres
+LOG_DIR=/var/vcap/sys/log/powerdns
+DATA_DIR=/var/vcap/store/powerdns/postgres
+BACKUP_DIR=${DATA_DIR}_backup
+DATA_STAGING_DIR=${DATA_DIR}_staging
+RUN_DIR=/var/vcap/sys/run/powerdns
 PIDFILE=$RUN_DIR/postgres.pid
 
-PORT=5432
+PORT=<%= properties.dns.database.port %>
 DNS_USER=<%= properties.dns.user %>
 DNS_PASSWORD=<%= properties.dns.password %>
 REPLICATION_USER=<%= properties.dns.replication.user %>
 REPLICATION_PASSWORD=<%= properties.dns.replication.password %>
-DBNAME=<%= properties.dns.database %>
+DBNAME=<%= properties.dns.database.name %>
 
 case "$1" in
   start)
@@ -45,7 +46,7 @@ case "$1" in
       chown vcap:vcap $DATA_DIR/pg_log
       <% else %>
         cd $DATA_DIR
-        wget --user=$REPLICATION_USER --password=$REPLICATION_PASSWORD http://<%= properties.dns.primary_address %>:8080/backups/backup.tgz
+        wget --user=$REPLICATION_USER --password=$REPLICATION_PASSWORD http://<%= properties.dns.address %>:8080/backups/backup.tgz
         tar xpzf backup.tgz
         rm backup.tgz
       <% end %>
@@ -92,10 +93,10 @@ case "$1" in
         echo "Trying to make a base backup"
         su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -c \"SELECT pg_start_backup('base', true)\""
 
-        mkdir -p /var/vcap/store/postgres_backup
-        rm -f /var/vcap/store/postgres_backup/backup.tgz
-        cd /var/vcap/store/postgres
-        tar cpzf /var/vcap/store/postgres_backup/backup.tgz .
+        mkdir -p $BACKUP_DIR
+        rm -f $BACKUP_DIR/backup.tgz
+        cd $DATA_DIR
+        tar cpzf BACKUP_DIR/backup.tgz .
 
         echo "Trying to stop base backup"
         su - vcap -c "LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH $PACKAGE_DIR/bin/psql -d $DBNAME -p $PORT -c \"SELECT pg_stop_backup()\""
