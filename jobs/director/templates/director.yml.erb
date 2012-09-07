@@ -43,6 +43,8 @@ elsif properties.openstack
   plugin = "openstack"
 elsif properties.vcenter
   plugin = "vsphere"
+elsif properties.vcd
+  plugin = "vcloud"
 else
   raise "Unknown cloud plugin"
 end
@@ -133,4 +135,18 @@ when "vsphere"
                 <% end %>
               <% end %>
           <% end %>
+<%
+when "vcloud"
+%>
+    vcds:
+      - url: <%= properties.vcd.url %>
+        user: <%= properties.vcd.user %>
+        password: <%= properties.vcd.password %>
+        entities:
+          organization: <%= properties.vcd.entities.organization %>
+          virtual_datacenter: <%= properties.vcd.entities.virtual_datacenter %>
+          vapp_catalog: <%= properties.vcd.entities.vapp_catalog %>
+          media_catalog: <%= properties.vcd.entities.media_catalog %>
+          vm_metadata_key: <%= properties.vcd.entities.vm_metadata_key || "vcd-cf" %>
+          description: <%= properties.vcd.entities.description || "vcd-cf" %>
 <% end %>
