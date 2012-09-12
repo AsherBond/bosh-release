@@ -13,7 +13,7 @@ start)
   echo $$ > $PIDFILE
 
   exec /var/vcap/packages/powerdns/pdns_server \
-    --guardian=no --socket-dir=$RUN_DIR \
+    --socket-dir=$RUN_DIR \
     --config-dir=/var/vcap/jobs/powerdns/config \
     >>$LOG_DIR/powerdns.stdout.log \
     2>>$LOG_DIR/powerdns.stderr.log

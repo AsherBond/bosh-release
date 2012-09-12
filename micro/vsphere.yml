@@ -60,8 +60,6 @@ properties:
     user: powerdns
     password: powerdns
     address: 127.0.0.1
-    recursors:
-      - 127.0.0.1
     replication:
       basic_auth: rick:QRoqsenPsNGX6
       user: rick
