@@ -99,7 +99,7 @@ when "openstack"
 when "vsphere"
 %>
     mem_overcommit_ratio: 0.7
-    soap_log: /var/vcap/sys/log/director/<%%= ENV["COMPONENT"] %>.soap.log
+    cpi_log: /var/vcap/sys/log/director/<%%= ENV["COMPONENT"] %>.cpi.log
     vcenters:
       - host: <%= properties.vcenter.address %>
         user: <%= properties.vcenter.user %>
