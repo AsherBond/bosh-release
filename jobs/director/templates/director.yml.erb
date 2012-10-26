@@ -23,6 +23,7 @@ db:
   <% end %>
 <% if dns = properties.dns %>
 dns:
+  server: <%= dns.address %>
   db:
     database: postgres://<%= dns.user %>:<%= dns.password %>@<%= dns.address %>:<%= dns.database.port || "5432" %>/<%= dns.database.name %>
     max_connections: 32
