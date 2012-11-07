@@ -7,4 +7,5 @@ templates:
 
 packages:
   - aws_registry
+  - libpq
   - ruby
