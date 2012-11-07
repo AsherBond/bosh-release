@@ -6,11 +6,6 @@ release:
 configuration_hash: {}
 properties:
   micro: true
-  domain: vcap.me
-  env:
-  networks:
-    apps: local
-    management: local
   nats:
     user: nats
     password: nats
