@@ -1,5 +1,6 @@
 cp -a nats/* ${BOSH_INSTALL_TARGET}
 (
   cd ${BOSH_INSTALL_TARGET}
-  /var/vcap/packages/ruby/bin/bundle --binstubs --local install --deployment
+  bundle_cmd=/var/vcap/packages/ruby/bin/bundle
+  $bundle_cmd install --binstubs --local --deployment
 )
