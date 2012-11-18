@@ -93,9 +93,11 @@ when "openstack"
       endpoint: http://<%= properties.openstack_registry.address %>:<%= properties.openstack_registry.http.port %>
       user: <%= properties.openstack_registry.http.user %>
       password: <%= properties.openstack_registry.http.password %>
+    <% if properties.openstack.stemcell %>
     stemcell:
       kernel_id: <%= properties.openstack.stemcell.kernel_id %>
       ramdisk_id: <%= properties.openstack.stemcell.ramdisk_id %>
+    <% end %>
 <%
 when "vsphere"
 %>
