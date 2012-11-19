@@ -2,6 +2,7 @@ cp -a * ${BOSH_INSTALL_TARGET}
 
 (
   cd ${BOSH_INSTALL_TARGET}/bosh/health_monitor
-  /var/vcap/packages/ruby/bin/bundle --local install --deployment --without=development test
+  bundle_cmd=/var/vcap/packages/ruby/bin/bundle
+  $bundle_cmd install --local --deployment --without=development test
 )
 
