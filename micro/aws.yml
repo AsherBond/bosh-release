@@ -9,6 +9,7 @@ properties:
   nats:
     user: nats
     password: nats
+    auth_timeout: 3
     address: 127.0.0.1
     port: 4222
   redis:
