@@ -15,7 +15,7 @@ log_file: /var/vcap/sys/log/nats/nats.log
 authorization:
   user: <%= properties.nats.user %>
   password: <%= properties.nats.password %>
-  timeout: 1
+  timeout: <%= properties.nats.auth_timeout || 1 %>
 
 <% if properties.nats.http %>
 http:
