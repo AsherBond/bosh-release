@@ -1,3 +1,5 @@
+set -e
+
 echo "Extracting pcre..."
 tar xzvf nginx/pcre-8.12.tar.gz
 
@@ -40,14 +42,12 @@ if [[ $? != 0 ]] ; then
 fi
 
 echo "Building nginx..."
-(
-  cd nginx-0.8.54
-  ./configure \
-    --prefix=${BOSH_INSTALL_TARGET} \
-    --with-pcre=../pcre-8.12 \
-    --with-http_ssl_module \
-    --add-module=../headers-more-v0.15rc1 \
-    --add-module=../nginx_upload_module-2.2.0
-  make
-  make install
-)
+cd nginx-0.8.54
+./configure \
+  --prefix=${BOSH_INSTALL_TARGET} \
+  --with-pcre=../pcre-8.12 \
+  --with-http_ssl_module \
+  --add-module=../headers-more-v0.15rc1 \
+  --add-module=../nginx_upload_module-2.2.0
+make
+make install

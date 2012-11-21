@@ -1,3 +1,5 @@
+set -e
+
 if [[ `uname -a` =~ "x86_64" ]] ; then
   archive="postgres-9.0.3-1.amd64.tar.gz"
   echo "Using 64-bit version"
@@ -17,6 +19,7 @@ echo "Extracting archive..."
 mkdir unpacked
 
 (
+  set -e
   cd unpacked
   tar xzf ../postgres/$archive
 
