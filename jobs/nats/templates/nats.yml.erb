@@ -1,5 +1,5 @@
 ---
-net: <%= properties.nats.address %>
+net: <%= properties.nats.listen_address || properties.nats.address %>
 port: <%= properties.nats.port %>
 
 logtime: true
