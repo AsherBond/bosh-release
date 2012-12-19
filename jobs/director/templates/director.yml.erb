@@ -79,8 +79,10 @@ when "aws"
       endpoint: http://<%= properties.aws_registry.address %>:<%= properties.aws_registry.http.port %>
       user: <%= properties.aws_registry.http.user %>
       password: <%= properties.aws_registry.http.password %>
+    <% if properties.aws.stemcell %>
     stemcell:
       kernel_id: <%= properties.aws.stemcell.kernel_id %>
+    <% end %>
 <%
 when "openstack"
 %>
