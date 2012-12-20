@@ -1,6 +1,6 @@
 --- 
 final_name: bosh
-min_cli_version: "1.0"
+min_cli_version: 1.0.3
 blobstore: 
   provider: atmos
   options: 
