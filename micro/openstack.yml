@@ -43,7 +43,6 @@ properties:
       user: admin
       password: admin
     db:
-      database: postgres://postgres:postgres@localhost/bosh
       max_connections: 32
       pool_timeout: 10
   hm:

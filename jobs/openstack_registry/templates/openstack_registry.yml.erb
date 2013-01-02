@@ -2,25 +2,27 @@
 loglevel: debug
 
 http:
-  port: <%= properties.openstack_registry.http.port %>
-  user: <%= properties.openstack_registry.http.user %>
-  password: <%= properties.openstack_registry.http.password %>
+  port: <%= p("openstack_registry.http.port") %>
+  user: <%= p("openstack_registry.http.user") %>
+  password: <%= p("openstack_registry.http.password") %>
 
 db:
-  <% if properties.postgres %>
-  <% user     = properties.postgres.user %>
-  <% pass     = properties.postgres.password %>
-  <% address  = properties.postgres.address %>
-  <% database = properties.postgres.database %>
-  database: postgres://<%= user %>:<%= pass %>@<%= address %>/<%= database %>
-  <% else %>
-  database: sqlite:///var/vcap/store/director/director.db %>
+  <% database = "sqlite:///var/vcap/store/director/director.db" %>
+  <% if_p("postgres.user",
+          "postgres.password",
+          "postgres.address",
+          "postgres.database") do |user, pass, address, db| %>
+    <% database = "postgres://#{user}:#{pass}@#{address}/#{db}" %>
   <% end %>
-  max_connections: 32
-  pool_timeout: 10
+  database: <%= database %>
+  max_connections: <%= p("openstack_registry.db.max_connections") %>
+  pool_timeout: <%= p("openstack_registry.db.pool_timeout") %>
 
 openstack:
-  auth_url: <%= properties.openstack.auth_url %>
-  username: <%= properties.openstack.username %>
-  api_key: <%= properties.openstack.api_key %>
-  tenant: <%= properties.openstack.tenant %>
+  auth_url: <%= p("openstack.auth_url") %>
+  username: <%= p("openstack.username") %>
+  api_key: <%= p("openstack.api_key") %>
+  tenant: <%= p("openstack.tenant") %>
+  <% if_p("openstack.region") do |region| %>
+  region: <%= region %>
+  <% end %>
