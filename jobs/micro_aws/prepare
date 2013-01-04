@@ -21,7 +21,8 @@ spec = {
   "templates" => {
     "post_install" => "bin/post_install"
   },
-  "packages" => []
+  "packages" => [],
+  "properties" => {}
 }
 
 monit = []
@@ -67,6 +68,7 @@ jobs.each do |job|
   s["templates"].each do |src, dst|
     spec["templates"]["#{job}/#{src}"] = "#{job}/#{dst}"
   end
+  spec["properties"].merge!(s["properties"]) if s["properties"]
 end
 
 # write out the concatenated monit file
