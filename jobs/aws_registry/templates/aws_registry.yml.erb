@@ -7,15 +7,14 @@ http:
   password: <%= p('aws_registry.http.password') %>
 
 db:
-  <% if p('use_postgres', false) %>
-  <% user     = p('postgres.user') %>
-  <% pass     = p('postgres.password') %>
-  <% address  = p('postgres.address') %>
-  <% database = p('postgres.database') %>
-  database: postgres://<%= user %>:<%= pass %>@<%= address %>/<%= database %>
-  <% else %>
-  database: sqlite:///var/vcap/store/director/director.db
+  <% database = "sqlite:///var/vcap/store/director/director.db" %>
+  <% if_p("postgres.user",
+          "postgres.password",
+          "postgres.address",
+          "postgres.database") do |user, pass, address, db| %>
+    <% database = "postgres://#{user}:#{pass}@#{address}/#{db}" %>
   <% end %>
+  database: <%= database %>
   max_connections: 32
   pool_timeout: 10
 
