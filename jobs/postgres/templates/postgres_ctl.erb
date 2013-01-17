@@ -6,11 +6,11 @@ DATA_DIR=/var/vcap/store/postgres
 RUN_DIR=/var/vcap/sys/run/postgres
 PIDFILE=$RUN_DIR/postgres.pid
 
-HOST=<%= properties.postgres.listen_address || properties.postgres.address %>
-PORT=<%= properties.postgres.port %>
-USER='<%= properties.postgres.user %>'
-PASSWORD='<%= properties.postgres.password %>'
-DBNAME='<%= properties.postgres.database %>'
+HOST=<%= p("postgres.listen_address") %>
+PORT=<%= p("postgres.port") %>
+USER='<%= p("postgres.user") %>'
+PASSWORD='<%= p("postgres.password") %>'
+DBNAME='<%= p("postgres.database") %>'
 
 case "$1" in
   start)
