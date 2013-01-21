@@ -1,9 +1,9 @@
 upstream backend {
-  server 127.0.0.1:<%= properties.blobstore.backend_port %>;
+  server 127.0.0.1:<%= p("blobstore.backend_port") %>;
 }
 
 server {
-  listen      <%= properties.blobstore.port %>;
+  listen      <%= p("blobstore.port") %>;
   server_name "";
 
   access_log  /var/vcap/sys/log/nginx/blobstore_access.log;
