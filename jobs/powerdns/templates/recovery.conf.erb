@@ -1,2 +1,2 @@
 standby_mode = 'on'
-primary_conninfo = 'host=<%= properties.dns.address %> port=<%= properties.dns.database.port || "5432" %> user=<%= properties.dns.replication.user %> password=<%= properties.dns.replication.password %>'
+primary_conninfo = 'host=<%= p("dns.address") %> port=<%= p("dns.database.port") %> user=<%= p("dns.replication.user") %> password=<%= p("dns.replication.password") %>'

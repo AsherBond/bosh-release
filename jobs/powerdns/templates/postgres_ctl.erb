@@ -9,12 +9,12 @@ DATA_STAGING_DIR=${DATA_DIR}_staging
 RUN_DIR=/var/vcap/sys/run/powerdns
 PIDFILE=$RUN_DIR/postgres.pid
 
-PORT=<%= properties.dns.database.port %>
-DNS_USER=<%= properties.dns.user %>
-DNS_PASSWORD=<%= properties.dns.password %>
-REPLICATION_USER=<%= properties.dns.replication.user %>
-REPLICATION_PASSWORD=<%= properties.dns.replication.password %>
-DBNAME=<%= properties.dns.database.name %>
+PORT=<%= p("dns.database.port") %>
+DNS_USER=<%= p("dns.user") %>
+DNS_PASSWORD=<%= p("dns.password") %>
+REPLICATION_USER=<%= p("dns.replication.user") %>
+REPLICATION_PASSWORD=<%= p("dns.replication.password") %>
+DBNAME=<%= p("dns.database.name") %>
 
 case "$1" in
   start)
@@ -46,7 +46,7 @@ case "$1" in
       chown vcap:vcap $DATA_DIR/pg_log
       <% else %>
         cd $DATA_DIR
-        wget --user=$REPLICATION_USER --password=$REPLICATION_PASSWORD http://<%= properties.dns.address %>:8080/backups/backup.tgz
+        wget --user=$REPLICATION_USER --password=$REPLICATION_PASSWORD http://<%= p("dns.address") %>:8080/backups/backup.tgz
         tar xpzf backup.tgz
         rm backup.tgz
       <% end %>

@@ -1,5 +1,5 @@
 listen_addresses = '*'
-port = <%= properties.dns.database.port || 5432 %>
+port = <%= p("dns.database.port") %>
 max_connections = 500
 external_pid_file = '/var/vcap/sys/run/powerdns/postgres.pid'
 authentication_timeout = 1min
