@@ -65,6 +65,7 @@ properties:
     user: powerdns
     password: powerdns
     address: 127.0.0.1
+    domain_name: microbosh
     replication:
       basic_auth: rick:QRoqsenPsNGX6
       user: rick
