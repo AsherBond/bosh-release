@@ -1,8 +1,0 @@
----
-name: gonatsd
-dependencies:
-- golang
-files:
-- gonatsd/*.go
-- gonatsd/gonatsd/**/*
-- gonatsd/vendor/**/*
